@@ -1,4 +1,3 @@
-import 'package:video_feed_app/app/theme/constants.dart';
 import 'package:flutter/material.dart';
 
 class FeedsHeader extends StatelessWidget {
@@ -12,9 +11,7 @@ class FeedsHeader extends StatelessWidget {
       children: <Widget>[
         Container(
           height: 130,
-          decoration: BoxDecoration(
-            gradient: kBackgroundGradient,
-          ),
+          // TODO 1 : Ajouter un arriere plan en gradiant (utiliser theme/constants.dart )
           child: Center(
             child: Text(
               this.title,
