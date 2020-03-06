@@ -3,6 +3,7 @@ import 'package:video_feed_app/app/widgets/my_feeds_header.dart';
 import 'package:flutter/material.dart';
 
 
+import 'widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -22,8 +23,7 @@ class LoginScreen extends StatelessWidget {
               expandedHeight: 150,
               flexibleSpace: FlexibleSpaceBar(
                 background: FeedsHeader(
-                  // TODO 2 : Ajouter un titre
-                  title: '',
+                  title: 'LOGIN TO YOUR ACCOUNT',
                 ),
               ),
             ),
@@ -33,8 +33,7 @@ class LoginScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height - 200,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 40, vertical: 10),
-                  // TODO 3 Utiliser le widget LoginForm
-                  child: Container(),
+                  child: LoginForm(),
                 ),
               ]),
             )
