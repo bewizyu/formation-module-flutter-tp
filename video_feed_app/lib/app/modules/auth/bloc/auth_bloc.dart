@@ -21,18 +21,25 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AppStarted) {
-      // TODO 3 : au demarrage de l'app verifier si l'utilisateur est deja authentifié (utiliser userRepository.hasUserLoggedIn)
-      // si l'utilisateur est authentifié envoyer sur le stream de retours le state Authenticated sinon envoyer Unauthenticated (utiliser yield pour pousser des event sur le stream)
+      final bool hasToken = await userRepository.hasUserLoggedIn();
+
+      if (hasToken) {
+        yield Authenticated();
+      } else {
+        yield Unauthenticated();
+      }
     }
 
-    // TODO 4 :  event is LoggedIn
-    // => envoyer AuthenticationLoading
-    // => persister le token retourné
-    // => envoyer Authenticated
+    if (event is LoggedIn) {
+      yield AuthenticationLoading();
+      await userRepository.persistUser(event.token);
+      yield Authenticated();
+    }
 
-    // TODO 5 :  event is LoggedOut
-    // => envoyer AuthenticationLoading
-    // => deconnecter l'utilisateur
-    // => envoyer Unauthenticated
+    if (event is LoggedOut) {
+      yield AuthenticationLoading();
+      await userRepository.logoutUser();
+      yield Unauthenticated();
+    }
   }
 }
