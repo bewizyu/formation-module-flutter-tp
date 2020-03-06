@@ -34,8 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (_, state) {
           if (state is Unauthenticated) {
-            // TODO 4 : rediriger vers la page login si l'utilisateur est deconnecté
-
             Navigator.pushNamedAndRemoveUntil(
                 context, kLoginRoute, (_) => false);
           }
@@ -43,14 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           body: SafeArea(
             child: IndexedStack(
-                // TODO 5 : page a afficher a la stack
-
-                ),
+                index: _selectedIndex,
+                children: subMenuItems.map<Widget>((SubMenuItem destination) {
+                  return _getRouteView(destination);
+                }).toList()),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            // TODO 6 : ajouter les BottomNavigationBarItem correspondantes aux pages (items)
-
-            items: null,
+            items: subMenuItems.map((SubMenuItem destination) {
+              return BottomNavigationBarItem(
+                icon: Icon(destination.icon),
+                title: Text(
+                  destination.title,
+                ),
+              );
+            }).toList(),
             currentIndex: _selectedIndex,
             onTap: (index) {
               setState(() {
@@ -61,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  /// Utiliser ce helper pour avoir la page correspondante
   _getRouteView(SubMenuItem item) {
     switch (item.route) {
       case kFeedsRoute:

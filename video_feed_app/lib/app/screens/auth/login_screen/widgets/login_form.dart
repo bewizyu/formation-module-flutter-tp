@@ -116,7 +116,8 @@ class _LoginFormState extends State<LoginForm> {
         BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (_, state) {
           if (state is Authenticated) {
-            // TODO 2 : rediriger l'utilisateur vers la page home s'il est authentifié
+            Navigator.pushNamedAndRemoveUntil(
+                context, kHomeRoute, (_) => false);
           }
         })
       ],

@@ -10,6 +10,7 @@ class _FeedsListState extends State<FeedsList> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
+        // TODO 2 : affiche la video dans la page home section 'Feeds'
         child: Text('FEEDS LIST'),
       ),
     );

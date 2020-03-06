@@ -19,8 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (state is Unauthenticated) {
           Navigator.pushNamedAndRemoveUntil(context, kLoginRoute, (_) => false);
         } else if(state is Authenticated){
-          // TODO 1 : rediriger l'utilisateur vers la page home s'il est authentifié
-          Navigator.pushNamedAndRemoveUntil(context, kLoginRoute, (_) => false);
+          Navigator.pushNamedAndRemoveUntil(context, kHomeRoute, (_) => false);
         }
       },
       child: Container(

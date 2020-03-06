@@ -1,4 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_feed_app/app/modules/auth/bloc/auth_bloc.dart';
+import 'package:video_feed_app/app/modules/auth/bloc/auth_event.dart';
 import 'package:video_feed_app/app/theme/constants.dart';
+import 'package:video_feed_app/app/widgets/my_feeds_button.dart';
 import 'package:video_feed_app/app/widgets/my_feeds_header.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +27,15 @@ class ProfileScreen extends StatelessWidget {
           delegate: SliverChildListDelegate([
             Container(
               child: Center(
-                  // TODO 7 : ajouter un boutton logout qui dispatch l'action LoggedOut d'AuthenticationBloc
-                  ),
+                child: MyFeedsButton(
+                  whiteBtn: true,
+                  label: 'Logout',
+                  onClick: () {
+                    BlocProvider.of<AuthenticationBloc>(context)
+                        .add(LoggedOut());
+                  },
+                ),
+              ),
             ),
           ]),
         )
