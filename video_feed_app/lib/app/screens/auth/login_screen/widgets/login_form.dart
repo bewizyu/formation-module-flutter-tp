@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:video_feed_app/app/theme/constants.dart';
+import 'package:video_feed_app/app/widgets/my_feeds_button.dart';
+import 'package:video_feed_app/app/widgets/my_feeds_input.dart';
+import 'package:video_feed_app/app_routes.dart';
+import 'package:video_feed_app/core/utils/validatorService.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -6,8 +11,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  _onLoginButtonPressed() {
+    _formKey.currentState.validate();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,19 +29,39 @@ class _LoginFormState extends State<LoginForm> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // TODO 7 : Remplacer les Containers par MyFeedsInput et utiliser les bons validateurs (voir utils/validatorService.dart
-                Container(
-                  color: Colors.greenAccent,
-                  height: 50,
+                MyFeedsInput(
+                  keyboardType: TextInputType.emailAddress,
+                  textController: _usernameController,
+                  labelText: 'Email',
+                  validatorFunction:
+                      ValidatorService.validateEmail(_usernameController.text),
+                ),
+                MyFeedsInput(
+                  keyboardType: TextInputType.visiblePassword,
+                  textController: _passwordController,
+                  labelText: 'Password',
+                  isPassword: true,
+                  validatorFunction: ValidatorService.validatePassword(
+                      _passwordController.text),
                 ),
                 Container(
-                  color: Colors.deepPurple,
-                  height: 50,
+                  width: double.infinity,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, bottom: 20, left: 30),
+                    child: Text(
+                      'Forgot your password ?',
+                      style: Theme.of(context).textTheme.display2.copyWith(
+                          color: kColorBluePrimary,
+                          decoration: TextDecoration.underline),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
                 ),
-                Container(
-                  color: Colors.amber,
-                  height: 50,
-                ),
+                MyFeedsButton(
+                  label: 'Login',
+                  onClick: _onLoginButtonPressed,
+                )
               ],
             ),
             Positioned(
@@ -41,14 +71,23 @@ class _LoginFormState extends State<LoginForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // TODO 10 : afficher le boutton login et le boutton  Create an account
-                  Container(
-                    color: Colors.greenAccent,
-                    height: 50,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30, bottom: 5),
+                    child: Text(
+                      'Don’t have an account ?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .display1
+                          .copyWith(color: kColorSecondaryGrey),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  Container(
-                    color: Colors.amber,
-                    height: 50,
+                  MyFeedsButton(
+                    whiteBtn: true,
+                    label: 'Create an account',
+                    onClick: () {
+                      Navigator.pushNamed(context, kCreatePassportRoute);
+                    },
                   ),
                 ],
               ),

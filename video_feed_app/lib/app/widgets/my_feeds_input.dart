@@ -35,13 +35,35 @@ class _MyFeedsInputState extends State<MyFeedsInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        // TODO 1 : Ajouter un TextFormField utiliser les parametre de configuration du widget MyFeedsInput (textController, labelText, ...)
-        // TODO 2 :  utiliser suffixIcon pour affichage de l'icone de l'oeil
-        // TODO 3 : utiliser isObscure et _buildTogglePasswordBtn pour gerer le mode show/hide password
-        // TODO 4 :  Utiliser un fontSize: 14 et color: kColorDarkBlue pour le style du text
-        // TODO 5 :  Utiliser le theme textTheme.display1 pour labelStyle, surchargez les valeur color: kColorSecondaryGrey, fontSize: 20
-        // TODO 6 :  pour la validation du formulaire utiliser le resultat de validatorFunction pour afficher les erreurs
-
+        TextFormField(
+          autofocus: false,
+          obscureText: isObscure,
+          keyboardType: widget.keyboardType == null
+              ? TextInputType.text
+              : widget.keyboardType,
+          style: TextStyle(fontSize: 14, color: kColorDarkBlue),
+          controller: widget.textController,
+          decoration: InputDecoration(
+            contentPadding:
+            const EdgeInsets.only(top: 8, bottom: 5, right: 10, left: 10),
+            hasFloatingPlaceholder: true,
+            suffixIcon: widget.isPassword
+                ? _buildTogglePasswordBtn()
+                : null,
+            labelText: widget.labelText != null ? widget.labelText : '',
+            labelStyle: Theme.of(context)
+                .textTheme
+                .display1
+                .copyWith(color: kColorSecondaryGrey, fontSize: 20),
+          ),
+          validator: (value) {
+            if (widget.validatorFunction != null) {
+              String error = widget.validatorFunction;
+              return error;
+            }
+            return null;
+          },
+        ),
       ],
     );
   }

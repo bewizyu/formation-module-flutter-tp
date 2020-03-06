@@ -10,6 +10,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+
+    // TODO 7 : ajouter Un bloc listener : BlocListener<AuthenticationBloc, AuthenticationState> dans lequel rediriger vers l'ecran login si on a un state de type Unauthenticated
+    // Supprimer le boutton 'GO TO LOGIN PAGE' qui ne sert plus à rien
+    
     return Container(
       decoration: BoxDecoration(
         gradient: kBackgroundGradient,

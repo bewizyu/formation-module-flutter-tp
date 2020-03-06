@@ -21,13 +21,20 @@ class MyFeedsButton extends StatelessWidget {
     return FlatButton(
       padding: EdgeInsets.all(0),
       onPressed: () {
-        // TODO 8 : utiliser la Function onClick
+        if (onClick != null) {
+          onClick();
+        }
       },
       child: Container(
         padding: EdgeInsets.all(10),
         constraints: BoxConstraints(minWidth: 150),
-
-        // TODO 9 : Appliquer la couleur du fond et les border radius (prendre en compte le toggle whiteBtn)
+        decoration: BoxDecoration(
+          color: kColorWhite,
+          gradient: whiteBtn ? null : kBackgroundGradient,
+          borderRadius: BorderRadius.circular(5),
+          border:
+              whiteBtn ? Border.all(color: kColorBluePrimary, width: 1) : null,
+        ),
         child: Text(
           label,
           style: btnStyle,
