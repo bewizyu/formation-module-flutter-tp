@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 
 class UserRepository {
@@ -8,9 +9,15 @@ class UserRepository {
     @required String username,
     @required String password,
   }) async {
-    // TODO 4 : remplacer le mock par le traitement d'authentification Firebase
-    return Future.delayed(Duration(milliseconds: 1000))
-        .then((_) => 'TESTTOKEN');
+    AuthResult result = await _auth.signInWithEmailAndPassword(
+        email: username, password: password);
+    if (!result.user.isEmailVerified) {
+      await _auth.signOut();
+      throw PlatformException(
+          code: 'EMAIL_NOT_VERIFIED',
+          message: 'The email addess is not verified');
+    }
+    return result.user.uid;
   }
 
   Future<void> resendVerificationEmail({
@@ -27,11 +34,10 @@ class UserRepository {
     return;
   }
 
-  Future<String> create({
-    @required String username,
-    @required String email,
-    @required String password,
-  }) async {
+  Future<String> create(
+      {@required String username,
+        @required String email,
+        @required String password}) async {
     await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
 
@@ -51,17 +57,21 @@ class UserRepository {
   }
 
   Future<void> logoutUser() async {
-    // TODO 5 : remplacer le mock par le traitement de logout Firebase
-
-    return Future.delayed(Duration(milliseconds: 1000));
+    await _auth.signOut();
+    return;
   }
 
   Future<void> persistUser(String token) async {
-    return Future.delayed(Duration(milliseconds: 1000));
+    return;
   }
 
   Future<bool> hasUserLoggedIn() async {
-    // TODO 6 : recuperer l'utilisateur authentifié, et retourner true si l'utilisateur existe bien et qu'il a un email verifié
-    return Future.delayed(Duration(milliseconds: 3000)).then((_) => false);
+    await Future.delayed(Duration(milliseconds: 2000));
+    FirebaseUser user = await _auth.currentUser();
+    if(user != null && !user.isEmailVerified){
+      _auth.signOut();
+      return false;
+    }
+    return user != null;
   }
 }

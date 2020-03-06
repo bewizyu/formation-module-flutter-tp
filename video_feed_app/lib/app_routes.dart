@@ -16,8 +16,12 @@ const kMainRoute = '/';
 /// My Feeds's routes
 final Map<String, WidgetBuilder> kRoutes = {
   kMainRoute: (_) => SplashScreen(),
+  // TODO 3 : ajouter la route kHomeRoute qui redirige vers la page Home
+
   kLoginRoute: (_) => LoginScreen(
     userRepository: UserRepository(),
   ),
-  kCreatePassportRoute: (_) => CreateAccountScreen(),
+  kCreatePassportRoute: (_) => CreateAccountScreen(
+    userRepository: UserRepository(),
+  ),
 };

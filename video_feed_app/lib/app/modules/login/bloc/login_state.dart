@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
-// TODO 1 : Voir les differentes states du login
 
 abstract class LoginState extends Equatable {
   const LoginState();

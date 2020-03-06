@@ -24,13 +24,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginButtonPressed) {
+      yield LoginLoading();
 
-      // TODO 3 : envoyer un state de type LoginLoading
-      // => Utiliser authenticate de user repository pour authentifier l'utilisateur
-      // => trigger l'evenement de login coté authentification bloc : authenticationBloc.add(LoggedIn(token: token));
-      // envoyer un state de type LoginInitial
-      // Gerer les erreurs avec try/catch et envoyer un state de type LoginFailure
+      try {
+        final token = await userRepository.authenticate(
+          username: event.username,
+          password: event.password,
+        );
 
+        authenticationBloc.add(LoggedIn(token: token));
+        yield LoginInitial();
+      } on PlatformException catch (error) {
+        yield LoginFailure(error: error);
+      } catch (ex) {
+        yield LoginFailure(
+            error: PlatformException(code: null, message: ex.toString()));
+      }
     } else if (event is ResetEmailButtonPressed) {
       yield LoginLoading();
 

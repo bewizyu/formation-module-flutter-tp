@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
-// TODO 2 : Voir les differentes event du login
 
 abstract class LoginEvent extends Equatable {
   const LoginEvent();

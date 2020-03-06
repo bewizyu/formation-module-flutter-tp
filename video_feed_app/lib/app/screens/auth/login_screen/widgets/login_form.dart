@@ -27,7 +27,12 @@ class _LoginFormState extends State<LoginForm> {
 
   _onLoginButtonPressed() {
     if (_formKey.currentState.validate()) {
-      // TODO 9 : envoyer un event de type LoginButtonPressed sur le LoginBloc
+      BlocProvider.of<LoginBloc>(context).add(
+        LoginButtonPressed(
+          username: _usernameController.text,
+          password: _passwordController.text,
+        ),
+      );
     } else {
       FocusScope.of(context).requestFocus(FocusNode());
       _formKey.currentState.validate();
@@ -85,10 +90,35 @@ class _LoginFormState extends State<LoginForm> {
       listeners: [
         BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
-            // TODO 8 : Afficher un message d'erreur si LoginFailure (utiliser Scaffold.of(context).showSnackBar) pour afficher un snackbar
+            if (state is LoginFailure) {
+              if (state.error.code == 'EMAIL_NOT_VERIFIED') {
+                _showEmailVerificationMessage(context);
+              } else {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                        'Your email and password does not match an account.'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            } else if (state is LginResetSuccess) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content:
+                      Text('An email has been sent to your email address.'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
           },
         ),
-
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (_, state) {
+          if (state is Authenticated) {
+            // TODO 2 : rediriger l'utilisateur vers la page home s'il est authentifié
+          }
+        })
       ],
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
