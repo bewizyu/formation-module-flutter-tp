@@ -74,10 +74,10 @@ class _MyFeedsInputState extends State<MyFeedsInput> {
     return IconButton(
       padding: EdgeInsets.all(0),
       splashColor: Colors.transparent,
-      onPressed: () => {
+      onPressed: () {
         setState(() {
           isObscure = !isObscure;
-        })
+        });
       },
       icon: Icon(
         widget.isPassword

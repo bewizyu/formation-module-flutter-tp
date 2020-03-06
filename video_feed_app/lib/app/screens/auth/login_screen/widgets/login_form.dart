@@ -197,8 +197,8 @@ class _LoginFormState extends State<LoginForm> {
                         MyFeedsButton(
                           whiteBtn: true,
                           label: 'Create an account',
-                          onClick: () => {
-                            Navigator.pushNamed(context, kCreatePassportRoute),
+                          onClick: () {
+                            Navigator.pushNamed(context, kCreatePassportRoute);
                           },
                         ),
                       ],
